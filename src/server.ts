@@ -6,6 +6,15 @@ const app = express()
 
 app.use(express.json())
 
+app.get(`/presentations`, async (req, res) => {
+  try {
+    const result = await prisma.attendee.findMany()
+    res.json(result)
+  } catch (error) {
+    res.json({ error: "No presentation was found in the database" })
+  }
+})
+
 app.post(`/presentation`, async (req, res) => {
   const { details, room, speaker } = req.body
 
