@@ -12,10 +12,22 @@ app.use(cors())
 app.get("/presentations", async (req, res) => {
   try {
     const presentations = await prisma.presentation.findMany({
-      include: {
-        speaker: true,
-        attendees: true
-      }
+      select: {
+        id: true,
+        room: true,
+        details: true,
+        speaker: {
+          select: {
+            name: true,
+          }
+        },
+        attendees: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      },
     })
     res.status(200).json(presentations)
   } catch (error) {
