@@ -1,1 +1,1 @@
-# REST API Example
+# events-backend
