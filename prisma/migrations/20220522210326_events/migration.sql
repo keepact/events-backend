@@ -4,7 +4,6 @@ CREATE TABLE "presentation" (
     "details" TEXT NOT NULL,
     "room" INTEGER NOT NULL,
     "speakerId" TEXT NOT NULL,
-    "attendeeId" TEXT,
 
     CONSTRAINT "presentation_pkey" PRIMARY KEY ("id")
 );
@@ -30,6 +29,7 @@ CREATE TABLE "attendee" (
     "email" TEXT NOT NULL,
     "registered" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "attendeeId" TEXT,
 
     CONSTRAINT "attendee_pkey" PRIMARY KEY ("id")
 );
@@ -44,4 +44,4 @@ CREATE UNIQUE INDEX "attendee_email_key" ON "attendee"("email");
 ALTER TABLE "presentation" ADD CONSTRAINT "presentation_speakerId_fkey" FOREIGN KEY ("speakerId") REFERENCES "speaker"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "presentation" ADD CONSTRAINT "presentation_attendeeId_fkey" FOREIGN KEY ("attendeeId") REFERENCES "attendee"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "attendee" ADD CONSTRAINT "attendee_attendeeId_fkey" FOREIGN KEY ("attendeeId") REFERENCES "presentation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
