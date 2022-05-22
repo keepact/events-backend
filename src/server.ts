@@ -1,82 +1,75 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import express from 'express'
+import cors from 'cors';
+
 
 const prisma = new PrismaClient()
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
-app.get(`/presentations`, async (req, res) => {
+app.get("/presentations", async (req, res) => {
   try {
-    const result = await prisma.attendee.findMany()
-    res.json(result)
+    const presentations = await prisma.presentation.findMany()
+    res.status(200).json(presentations)
   } catch (error) {
-    res.json({ error: "No presentation was found in the database" })
+    res.status(501).json({ error: "No presentation was found in the database" })
   }
 })
 
-app.post(`/presentation`, async (req, res) => {
+app.post("/presentation", async (req, res) => {
   const { details, room, speaker } = req.body
 
   try {
-    const result = await prisma.presentation.create({
+    const presentation = await prisma.presentation.create({
       data: {
         details,
-        room,
+        room: +room,
         speaker: {
           create: speaker
         },
       },
     })
-    res.json(result)
+    res.status(200).json(presentation)
   } catch (error) {
-    res.json({ error: "Presentation cannot be created in the database" })
+    res.status(501).json({ error: "Presentation cannot be created in the database" })
   }
 })
 
-app.post(`/attendees`, async (req, res) => {
+app.post("/attendees", async (req, res) => {
   const { name, company, email } = req.body
 
   try {
-    const result = await prisma.attendee.create({
+    const attendee = await prisma.attendee.create({
       data: {
         name,
         company,
         email,
       },
     })
-    res.json(result)
+    res.status(200).json(attendee)
   } catch (error) {
-    res.json({ error: "Attendee cannot be created in the database" })
+    res.status(501).json({ error: "Attendee cannot be created in the database" })
   }
 })
 
-app.put('/presentation/:presentation_id/:attendee_id', async (req, res) => {
-  const { presentation_id, attendee_id } = req.params
-
-  const attendee = await prisma.attendee.findUnique({
-    where: { id: attendee_id }
-  })
-
-  if (!attendee) {
-    return res.json({ error: `Attendee with ID ${attendee_id} does not exist in the database` })
-  }
+app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req, res) => {
+  const { presentation_id, attendee_email } = req.params
 
   try {
-    const post = await prisma.presentation.update({
+    const presentation = await prisma.presentation.update({
       where: { id: presentation_id },
       data: {
         attendee: {
-          create: {
-            ...attendee
-          }
+          connect: { email: attendee_email },
         },
       },
     })
 
-    res.json(post)
+    res.status(200).json(presentation)
   } catch (error) {
-    res.json({ error: `Presentation with ID ${presentation_id} does not exist in the database` })
+    res.status(501).json({ error: `Presentation with ID ${presentation_id} does not exist in the database` })
   }
 })
 
