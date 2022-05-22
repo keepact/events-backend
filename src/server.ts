@@ -69,7 +69,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
 
     res.status(200).json(presentation)
   } catch (error) {
-    res.status(501).json({ error: `Presentation with ID ${presentation_id} does not exist in the database` })
+    res.status(501).json({ error: `Attendee with email ${attendee_email} does not exist in the database` })
   }
 })
 
