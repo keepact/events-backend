@@ -11,7 +11,12 @@ app.use(cors())
 
 app.get("/presentations", async (req, res) => {
   try {
-    const presentations = await prisma.presentation.findMany()
+    const presentations = await prisma.presentation.findMany({
+      include: {
+        speaker: true,
+        attendees: true
+      }
+    })
     res.status(200).json(presentations)
   } catch (error) {
     res.status(501).json({ error: "No presentation was found in the database" })
@@ -61,7 +66,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
     const presentation = await prisma.presentation.update({
       where: { id: presentation_id },
       data: {
-        attendee: {
+        attendees: {
           connect: { email: attendee_email },
         },
       },
@@ -69,6 +74,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
 
     res.status(200).json(presentation)
   } catch (error) {
+    console.log(error, 'error')
     res.status(501).json({ error: `Attendee with email ${attendee_email} does not exist in the database` })
   }
 })
