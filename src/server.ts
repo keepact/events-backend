@@ -42,18 +42,24 @@ app.post(`/attendees`, async (req, res) => {
   }
 })
 
-app.put('/presentation/:presentation_id/attendees', async (req, res) => {
-  const { presentation_id } = req.params
-  const { name, company, email } = req.body
+app.put('/presentation/:presentation_id/:attendee_id', async (req, res) => {
+  const { presentation_id, attendee_id } = req.params
+
+  const attendee = await prisma.attendee.findUnique({
+    where: { id: attendee_id }
+  })
+
+  if (!attendee) {
+    return res.json({ error: `Attendee with ID ${attendee_id} does not exist in the database` })
+  }
+
   try {
     const post = await prisma.presentation.update({
       where: { id: presentation_id },
       data: {
         attendee: {
           create: {
-            name,
-            company,
-            email
+            ...attendee
           }
         },
       },
