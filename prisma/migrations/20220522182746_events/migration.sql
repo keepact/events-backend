@@ -34,6 +34,12 @@ CREATE TABLE "attendee" (
     CONSTRAINT "attendee_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "speaker_email_key" ON "speaker"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "attendee_email_key" ON "attendee"("email");
+
 -- AddForeignKey
 ALTER TABLE "presentation" ADD CONSTRAINT "presentation_speakerId_fkey" FOREIGN KEY ("speakerId") REFERENCES "speaker"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
