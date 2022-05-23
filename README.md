@@ -35,10 +35,14 @@ To run locally:
 
     npx prisma generate 
     
-5 - Finally, to start the project run:
+5 - Create .env file in the the ``root`` folder with the content:
 
-    yarn dev    
+    DATABASE_URL="postgresql://postgres:docker@localhost:5432/sucasa"    
 
-6 -  Now, you can ``access`` the api at the address:
+6 -  You can ``start`` the project with following command:
+
+    yarn dev
+    
+7 -  Finally, you can ``access`` the api at the address:
 
     http://localhost:3001
