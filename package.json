@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node index.ts",
+    "postinstall": "tsc",
+    "deploy": "git add . && git commit -m Heroku && git push heroku main",
     "dev": "ts-node src/index.ts"
   },
   "dependencies": {
