@@ -31,7 +31,7 @@ app.get("/presentations", async (req, res) => {
     })
     res.status(200).json(presentations)
   } catch (error) {
-    res.status(501).json({ error: "No presentation was found in the database" })
+    res.status(500).json({ error: "No presentation was found in the database" })
   }
 })
 
@@ -50,7 +50,7 @@ app.post("/presentation", async (req, res) => {
     })
     res.status(200).json(presentation)
   } catch (error) {
-    res.status(501).json({ error: "Presentation cannot be created in the database" })
+    res.status(500).json({ error: "Presentation cannot be created in the database" })
   }
 })
 
@@ -67,7 +67,7 @@ app.post("/attendees", async (req, res) => {
     })
     res.status(200).json(attendee)
   } catch (error) {
-    res.status(501).json({ error: "Attendee cannot be created in the database" })
+    res.status(500).json({ error: "Attendee cannot be created in the database" })
   }
 })
 
@@ -87,7 +87,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
     res.status(200).json(presentation)
   } catch (error) {
     console.log(error, 'error')
-    res.status(501).json({ error: `Attendee with email ${attendee_email} does not exist in the database` })
+    res.status(500).json({ error: `Attendee with email ${attendee_email} does not exist in the database` })
   }
 })
 
