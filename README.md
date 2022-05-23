@@ -38,3 +38,7 @@ To run locally:
 5 - Finally, to start the project run:
 
     yarn dev    
+
+6 -  Now, you can ``access`` the api at the address:
+
+    http://localhost:3001
