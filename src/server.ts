@@ -75,7 +75,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
   const { presentation_id, attendee_email } = req.params
 
   try {
-    const presentation = await prisma.presentation.update({
+    await prisma.presentation.update({
       where: { id: presentation_id },
       data: {
         attendees: {
@@ -84,7 +84,7 @@ app.put("/presentations/:presentation_id/attendees/:attendee_email", async (req,
       },
     })
 
-    res.status(200).json(presentation)
+    res.status(200).json({ message: "Attendee successfully added to presentation" })
   } catch (error) {
     console.log(error, 'error')
     res.status(500).json({ error: `Attendee with email ${attendee_email} does not exist in the database` })
