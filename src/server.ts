@@ -14,8 +14,8 @@ app.get("/presentations", async (req, res) => {
     const presentations = await prisma.presentation.findMany({
       select: {
         id: true,
-        room: true,
         details: true,
+        room: true,
         speaker: {
           select: {
             name: true,
