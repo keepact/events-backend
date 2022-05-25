@@ -162,7 +162,7 @@ or implemented error
 ```
 
 ### PUT /presentations/:presentation_id/attendees/:attendee_email
-Add a speaker to a presentation
+Add a attendee to a presentation
 
 **Parameters**
 
